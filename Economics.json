@@ -1,0 +1,40 @@
+{
+  "browse_label": "Browse by Year",
+  "years": [
+    {
+      "year_title": "1st Year",
+      "subjects": [
+        {
+          "subject_name": {
+            "en": "Math",
+            "bn": "Gonit"
+          },
+          "img": "https://xzeeshan.liveblog365.com/wp-content/uploads/2023/07/mathematics-circular-flat-vector-20232263.jpg",
+          "chapters": [
+            {
+              "chapter_title": "Chapter 01",
+              "topics": [
+                {
+                  "title": "Topip 01  Dipannita",
+                  "url": "2U-znILCZFM"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year_title": "2nd Year",
+      "subjects": []
+    },
+    {
+      "year_title": "3rd Year",
+      "subjects": []
+    },
+    {
+      "year_title": "4th Year",
+      "subjects": []
+    }
+  ]
+}
