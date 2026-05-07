@@ -1151,9 +1151,17 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
         <span>GitHub Sync</span>
       </div>
       <div class="gh-panel-body" id="ghPanelBody">
-        <!-- URL and token auto-filled from Supabase login — no manual input needed -->
-        <input type="hidden" id="ghFileUrl">
-        <input type="hidden" id="ghToken" data-masked="1">
+        <!-- Debug: visible read-only fields for checking token + path -->
+        <div style="margin-bottom:7px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">File URL</div>
+          <input type="text" id="ghFileUrl" readonly
+            style="width:100%;height:30px;padding:0 9px;background:var(--search-bg);border:1px solid var(--border);border-radius:8px;color:var(--amber);font-family:var(--font-mono);font-size:11px;outline:none;cursor:default;opacity:0.9;">
+        </div>
+        <div style="margin-bottom:10px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Token <span style="font-size:9px;opacity:.55;text-transform:none;letter-spacing:0;">(masked)</span></div>
+          <input type="text" id="ghToken" data-masked="1" readonly
+            style="width:100%;height:30px;padding:0 9px;background:var(--search-bg);border:1px solid var(--border);border-radius:8px;color:var(--green);font-family:var(--font-mono);font-size:11px;letter-spacing:3px;outline:none;cursor:default;opacity:0.9;">
+        </div>
         <div class="gh-row">
           <button class="btn btn-sm" onclick="ghFetch()">⬇ Pull</button>
           <button class="btn btn-sm btn-success" onclick="ghPushModal()">⬆ Push</button>
@@ -3073,9 +3081,17 @@ window.addEventListener('load', () => {
       GitHub Sync
     </div>
     <div class="mob-files-body" id="mobGhBody">
-      <!-- URL and token auto-filled from Supabase login -->
-      <input type="hidden" id="mobGhFileUrl">
-      <input type="hidden" id="mobGhToken" data-masked="1">
+      <!-- Debug: visible read-only fields for checking token + path -->
+      <div style="margin-bottom:7px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">File URL</div>
+        <input type="text" id="mobGhFileUrl" readonly
+          style="width:100%;height:30px;padding:0 9px;background:var(--search-bg);border:1px solid var(--border);border-radius:8px;color:var(--amber);font-family:var(--font-mono);font-size:10px;outline:none;cursor:default;opacity:0.9;">
+      </div>
+      <div style="margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;">Token <span style="font-size:9px;opacity:.55;text-transform:none;letter-spacing:0;">(masked)</span></div>
+        <input type="text" id="mobGhToken" data-masked="1" readonly
+          style="width:100%;height:30px;padding:0 9px;background:var(--search-bg);border:1px solid var(--border);border-radius:8px;color:var(--green);font-family:var(--font-mono);font-size:10px;letter-spacing:3px;outline:none;cursor:default;opacity:0.9;">
+      </div>
       <div class="mob-files-row">
         <button class="btn btn-sm" onclick="ghFetch()">⬇ Pull</button>
         <button class="btn btn-sm btn-success" onclick="ghPushModal()">⬆ Push</button>
