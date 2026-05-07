@@ -1092,7 +1092,7 @@ hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
       <button class="gate-eye" onclick="gateToggleEye()" title="Show/hide">👁</button>
     </div>
     <div class="gate-btn-row">
-      <button class="gate-btn-cancel" onclick="if(window.parent&&window.parent!==window&&typeof window.parent.closeSourceEditor==='function'){window.parent.closeSourceEditor();}else{var b=location.href.replace(/\/editor\/source-editor\.html.*/,'\/index.html');window.location.href=b;}" type="button">Cancel</button>
+      <button class="gate-btn-cancel" onclick="window.parent.postMessage({type:'ej:close-editor'},'*')" type="button">Cancel</button>
       <button class="gate-btn" id="gate-submit-btn" onclick="gateLogin()">Unlock</button>
     </div>
     <div class="gate-error" id="gate-error">Incorrect password. Please try again.</div>
