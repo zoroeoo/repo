@@ -6,7 +6,6 @@
   <title>Notice — Eduyomi</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
-    // Mirror theme & accent from parent if embedded in an iframe
     (function () {
       try {
         const p = window.parent;
@@ -17,14 +16,12 @@
           || p.localStorage.getItem('eduyomi-accent') || '#7c6af7';
         document.documentElement.style.setProperty('--accent-custom', accent);
       } catch (_) {
-        // cross-origin or standalone — fall back to defaults
         const stored = localStorage.getItem('eduyomi-accent') || '#7c6af7';
         document.documentElement.style.setProperty('--accent-custom', stored);
       }
     })();
   </script>
   <style>
-    /* ── Design tokens (mirrors index.html) ── */
     :root {
       --font-display: 'Syne', sans-serif;
       --font-body:    'DM Sans', sans-serif;
@@ -32,12 +29,10 @@
       --accent-alt:   color-mix(in srgb, var(--accent) 70%, white 30%);
       --accent-glow:  color-mix(in srgb, var(--accent) 28%, transparent 72%);
       --pink:         #f472b6;
-      --pink-glow:    rgba(244,114,182,0.22);
       --radius-pill:  999px;
       --radius-card:  22px;
       --transition:   200ms cubic-bezier(.4,0,.2,1);
     }
-
     [data-theme="dark"] {
       --bg:             #0d0e1a;
       --surface:        rgba(255,255,255,0.05);
@@ -85,54 +80,41 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Ambient orbs (same vibe as index) ── */
     .ambient {
       position: fixed; pointer-events: none; z-index: 0;
-      border-radius: 50%; filter: blur(80px); opacity: 0.55;
+      border-radius: 50%; filter: blur(80px); opacity: 0.45;
     }
-    .ambient-1 {
-      width: 420px; height: 420px;
-      top: -120px; left: -100px;
-      background: var(--ambient1);
-    }
-    .ambient-2 {
-      width: 320px; height: 320px;
-      bottom: -80px; right: -60px;
-      background: var(--ambient2);
-    }
+    .ambient-1 { width: 300px; height: 300px; top: -80px; left: -80px; background: var(--ambient1); }
+    .ambient-2 { width: 220px; height: 220px; bottom: -60px; right: -40px; background: var(--ambient2); }
 
-    /* ── Wrapper ── */
+    /* ── Full-viewport layout, tight to top ── */
     .notice-wrap {
       position: relative; z-index: 1;
       min-height: 100vh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-start;
-      padding: 48px 20px 56px;
+      padding: 18px 16px 16px;
       gap: 0;
     }
 
-    /* ── Header badge ── */
+    /* ── Eyebrow badge ── */
     .notice-eyebrow {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 5px 14px 5px 10px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 11px 4px 8px;
       border-radius: var(--radius-pill);
       border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
       background: color-mix(in srgb, var(--accent) 10%, transparent);
-      font-size: .72rem; font-weight: 700; letter-spacing: 1.1px;
+      font-size: .65rem; font-weight: 700; letter-spacing: 1px;
       text-transform: uppercase; color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .notice-eyebrow svg {
-      width: 13px; height: 13px; stroke: currentColor; fill: none;
-      stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+      margin-bottom: 10px;
     }
 
     /* ── Title ── */
     .notice-title {
       font-family: var(--font-display);
-      font-size: clamp(1.55rem, 5vw, 2.4rem);
+      font-size: clamp(1.1rem, 3.5vw, 1.55rem);
       font-weight: 800; line-height: 1.15;
-      text-align: center; margin-bottom: 10px;
+      text-align: center; margin-bottom: 5px;
       background: linear-gradient(120deg, var(--accent) 0%, var(--accent-alt) 55%, var(--pink) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -140,22 +122,24 @@
 
     /* ── Subtitle ── */
     .notice-sub {
-      font-size: .9rem; color: var(--text-secondary);
-      text-align: center; max-width: 460px;
-      line-height: 1.6; margin-bottom: 36px;
+      font-size: .75rem; color: var(--text-secondary);
+      text-align: center; max-width: 420px;
+      line-height: 1.5; margin-bottom: 14px;
     }
 
-    /* ── Card list ── */
+    /* ── 2×2 grid of cards ── */
     .notice-cards {
-      display: flex; flex-direction: column; gap: 12px;
-      width: 100%; max-width: 560px;
-      margin-bottom: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      width: 100%; max-width: 520px;
+      margin-bottom: 14px;
     }
 
     .notice-card {
-      display: flex; align-items: flex-start; gap: 14px;
-      padding: 18px 20px;
-      border-radius: 16px;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
+      padding: 11px 13px;
+      border-radius: 13px;
       background: var(--card-bg);
       border: 1px solid var(--border);
       transition: background var(--transition), border-color var(--transition), transform .18s;
@@ -164,116 +148,107 @@
     .notice-card:hover {
       background: var(--surface-hover);
       border-color: color-mix(in srgb, var(--accent) 28%, transparent);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     .notice-card-icon {
       flex-shrink: 0;
-      width: 38px; height: 38px; border-radius: 11px;
+      width: 28px; height: 28px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       background: color-mix(in srgb, var(--accent) 13%, transparent);
       border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     }
     .notice-card-icon svg {
-      width: 18px; height: 18px;
+      width: 13px; height: 13px;
       stroke: var(--accent); fill: none;
       stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
     }
-    /* Pink variant for certain icons */
-    .notice-card-icon.pink {
-      background: rgba(244,114,182,0.10);
-      border-color: rgba(244,114,182,0.22);
-    }
+    .notice-card-icon.pink { background: rgba(244,114,182,0.10); border-color: rgba(244,114,182,0.22); }
     .notice-card-icon.pink svg { stroke: var(--pink); }
 
     .notice-card-body { flex: 1; min-width: 0; }
     .notice-card-title {
-      font-size: .88rem; font-weight: 600;
-      color: var(--text-primary); margin-bottom: 3px;
+      font-size: .75rem; font-weight: 600;
+      color: var(--text-primary); margin-bottom: 2px;
     }
     .notice-card-desc {
-      font-size: .80rem; color: var(--text-secondary);
-      line-height: 1.55;
+      font-size: .68rem; color: var(--text-secondary);
+      line-height: 1.45;
     }
 
-    /* ── Footer note ── */
-    .notice-footer {
-      width: 100%; max-width: 560px;
-      padding: 14px 20px;
-      border-radius: 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      gap: 6px; flex-wrap: wrap;
-      font-size: .78rem; color: var(--text-muted);
-      line-height: 1.4; text-align: center;
+    /* ── Bottom row: CTA + footer ── */
+    .notice-actions {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      width: 100%; max-width: 520px;
     }
-    .notice-footer a {
-      color: var(--accent); text-decoration: none; font-weight: 500;
-      white-space: nowrap;
-      transition: opacity var(--transition);
-    }
-    .notice-footer a:hover { opacity: .75; }
 
-    /* ── CTA button ── */
     .notice-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 26px;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 22px;
       border-radius: var(--radius-pill);
       background: var(--accent);
       color: #fff; font-family: var(--font-body);
-      font-size: .85rem; font-weight: 600;
+      font-size: .78rem; font-weight: 600;
       border: none; cursor: pointer;
       text-decoration: none;
       transition: opacity var(--transition), transform .18s, box-shadow .18s;
-      box-shadow: 0 4px 22px color-mix(in srgb, var(--accent) 38%, transparent);
-      margin-bottom: 28px;
+      box-shadow: 0 3px 16px color-mix(in srgb, var(--accent) 38%, transparent);
     }
     .notice-btn:hover {
       opacity: .88;
       transform: translateY(-2px);
-      box-shadow: 0 6px 28px color-mix(in srgb, var(--accent) 50%, transparent);
+      box-shadow: 0 5px 22px color-mix(in srgb, var(--accent) 50%, transparent);
     }
     .notice-btn svg {
-      width: 15px; height: 15px; stroke: currentColor; fill: none;
-      stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round;
+      width: 13px; height: 13px; stroke: currentColor; fill: none;
+      stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
     }
 
-    /* ── Subtle pulse on the eyebrow dot ── */
+    .notice-footer {
+      width: 100%;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      gap: 5px; flex-wrap: wrap;
+      font-size: .68rem; color: var(--text-muted);
+      text-align: center;
+    }
+    .notice-footer a {
+      color: var(--accent); text-decoration: none; font-weight: 500;
+      white-space: nowrap; transition: opacity var(--transition);
+    }
+    .notice-footer a:hover { opacity: .75; }
+
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
       50%       { opacity: .5; transform: scale(.7); }
     }
     .pulse-dot {
-      width: 7px; height: 7px; border-radius: 50%;
+      width: 6px; height: 6px; border-radius: 50%;
       background: var(--accent);
       animation: pulse-dot 1.8s ease-in-out infinite;
     }
   </style>
 </head>
 <body>
-  <!-- Ambient background orbs -->
   <div class="ambient ambient-1"></div>
   <div class="ambient ambient-2"></div>
 
   <div class="notice-wrap">
 
-    <!-- Eyebrow badge -->
     <div class="notice-eyebrow">
       <span class="pulse-dot"></span>
       Important Notice
     </div>
 
-    <!-- Title -->
     <h1 class="notice-title">A few things before you dive in</h1>
 
-    <!-- Subtitle -->
     <p class="notice-sub">
-      Eduyomi is a free, community-driven education portal. Please read the following
-      so you know what to expect and how to get the most out of it.
+      Eduyomi is a free, community-driven education portal. Please read below so you know what to expect.
     </p>
 
-    <!-- Notice cards -->
     <div class="notice-cards">
 
       <div class="notice-card">
@@ -281,11 +256,8 @@
           <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div class="notice-card-body">
-          <div class="notice-card-title">Content is user-contributed</div>
-          <div class="notice-card-desc">
-            Courses, notes, and resources are shared by the community. Always
-            cross-check with official sources for academic or professional use.
-          </div>
+          <div class="notice-card-title">User-contributed content</div>
+          <div class="notice-card-desc">Courses and notes are shared by the community. Cross-check with official sources.</div>
         </div>
       </div>
 
@@ -294,11 +266,8 @@
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
         <div class="notice-card-body">
-          <div class="notice-card-title">No warranties on accuracy</div>
-          <div class="notice-card-desc">
-            We strive to keep content accurate and up-to-date, but we cannot
-            guarantee completeness. Report errors using the feedback button inside any lesson.
-          </div>
+          <div class="notice-card-title">No accuracy warranty</div>
+          <div class="notice-card-desc">We strive for accuracy but can't guarantee completeness. Report errors via feedback.</div>
         </div>
       </div>
 
@@ -307,11 +276,8 @@
           <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
         <div class="notice-card-body">
-          <div class="notice-card-title">Your data stays with you</div>
-          <div class="notice-card-desc">
-            Progress, bookmarks, and preferences are stored locally in your browser.
-            Nothing is synced to a server unless you are signed in.
-          </div>
+          <div class="notice-card-title">Your data stays local</div>
+          <div class="notice-card-desc">Progress and bookmarks are stored in your browser, not synced unless signed in.</div>
         </div>
       </div>
 
@@ -321,49 +287,37 @@
         </div>
         <div class="notice-card-body">
           <div class="notice-card-title">Free, forever</div>
-          <div class="notice-card-desc">
-            Eduyomi will always be free to use. If you'd like to support the project,
-            consider contributing content or sharing it with a friend who needs it.
-          </div>
+          <div class="notice-card-desc">Eduyomi is always free. Support us by contributing content or sharing with friends.</div>
         </div>
       </div>
 
-    </div><!-- /notice-cards -->
-
-    <!-- CTA -->
-    <a href="#" class="notice-btn" onclick="noticeAccept(event)">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      I understand, let's go
-    </a>
-
-    <!-- Footer note -->
-    <div class="notice-footer">
-      By continuing you agree to our
-      <a href="#">Terms of Use</a>
-      and
-      <a href="#">Privacy Policy</a>
     </div>
 
-  </div><!-- /notice-wrap -->
+    <div class="notice-actions">
+      <a href="#" class="notice-btn" onclick="noticeAccept(event)">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        I understand, let's go
+      </a>
+      <div class="notice-footer">
+        By continuing you agree to our
+        <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+
+  </div>
 
   <script>
-    /* ── Sync theme from parent in real-time ── */
     (function () {
       function syncFromParent() {
         try {
           const root = window.parent.document.documentElement;
           const theme = root.getAttribute('data-theme');
           if (theme) document.documentElement.setAttribute('data-theme', theme);
-
           const accent = getComputedStyle(root).getPropertyValue('--accent').trim();
           if (accent) document.documentElement.style.setProperty('--accent-custom', accent);
         } catch (_) {}
       }
-
-      // Initial sync (token is already set in <head>, this handles theme)
       syncFromParent();
-
-      // Re-sync whenever parent changes theme (MutationObserver on parent root)
       try {
         const observer = new MutationObserver(syncFromParent);
         observer.observe(window.parent.document.documentElement, {
@@ -372,11 +326,9 @@
       } catch (_) {}
     })();
 
-    /* ── Accept button: close iframe or redirect ── */
     function noticeAccept(e) {
       e.preventDefault();
       try {
-        // Try to tell parent to close/hide the notice iframe
         if (window.parent && window.parent !== window) {
           window.parent.postMessage({ type: 'eduyomi-notice-accepted' }, '*');
         }
