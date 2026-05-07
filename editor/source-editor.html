@@ -1,7 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* Apply theme + accent from index.html localStorage BEFORE CSS renders — prevents flash */
+(function(){
+  var theme  = localStorage.getItem('ej-synced-theme') || localStorage.getItem('eduyomi-theme') || 'dark';
+  var accent = localStorage.getItem('ej-synced-accent') || localStorage.getItem('eduyomi-accent') || '';
+  document.documentElement.setAttribute('data-theme', theme);
+  if (accent) document.documentElement.style.setProperty('--accent-custom', accent);
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eduyomi JSON Editor</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -3232,11 +3241,11 @@ window.addEventListener('load', () => {
       sessionStorage.setItem(SESSION_KEY, "1");
       try { localStorage.setItem("ej-auth-displayname", username); } catch(_) {}
 
-      // Fetch gh_token + repo from user_profiles
+      // Fetch gh_token + gh_file_url from users table
       try {
         const { data: profile, error: profErr } = await sb
           .from("users")
-          .select("gh_token")
+          .select("gh_token, gh_file_url")
           .eq("id", data.user.id)
           .single();
 
@@ -3245,6 +3254,8 @@ window.addEventListener('load', () => {
           toast('Profile error: ' + (profErr.message || JSON.stringify(profErr)), 'e');
         } else if (profile) {
           console.log('[Eduyomi] profile fetched:', JSON.stringify(profile));
+
+          // Set token
           if (profile.gh_token) {
             _sessionGhToken = profile.gh_token;
             console.log('[Eduyomi] token set, length:', profile.gh_token.length);
@@ -3252,6 +3263,15 @@ window.addEventListener('load', () => {
             console.warn('[Eduyomi] gh_token is null/empty in users table');
             toast('Warning: no GitHub token found in your profile', 'e');
           }
+
+          // Set file URL — store as the active file hint so ghInitInputs() picks it up
+          if (profile.gh_file_url) {
+            localStorage.setItem('ej-active-file-hint', profile.gh_file_url);
+            console.log('[Eduyomi] gh_file_url set:', profile.gh_file_url);
+          } else {
+            console.warn('[Eduyomi] gh_file_url is null/empty in users table');
+          }
+
           setTimeout(() => {
             if (typeof ghInitInputs === 'function') ghInitInputs();
           }, 500);
