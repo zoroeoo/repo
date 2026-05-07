@@ -2664,11 +2664,26 @@ function ghInitInputs() {
       fileUrl = fileHint;
     } else {
       const repoHint = localStorage.getItem('ej-active-repo-hint') || '';
-      if (repoHint) fileUrl = 'https://github.com/' + repoHint + '/blob/main/';
+      // Only use the repo hint if it produces a parseable URL — a bare repo URL without
+      // a filename is not valid for fetch/push, so leave the field empty rather than
+      // filling it with an incomplete path that would later be saved and break things.
+      if (repoHint) {
+        const candidate = 'https://github.com/' + repoHint + '/blob/main/';
+        // Don't set — this is intentionally left as a placeholder; don't persist it.
+        fileUrl = candidate;
+      }
     }
   }
   const urlInp = document.getElementById('ghFileUrl');
-  if (urlInp) urlInp.value = fileUrl;
+  // Only restore a parseable URL into the field; a partial placeholder is shown but NOT saved.
+  if (urlInp) {
+    urlInp.value = fileUrl;
+    // If it's a partial placeholder (not parseable), clear the stale localStorage entry
+    // so it can't override a valid URL that arrives later via postMessage.
+    if (fileUrl && !ghParseUrl(fileUrl)) {
+      localStorage.removeItem('ej-gh-fileurl');
+    }
+  }
   const mobUrl = document.getElementById('mobGhFileUrl');
   if (mobUrl) mobUrl.value = fileUrl;
 
@@ -2696,7 +2711,12 @@ window.addEventListener('message', function(e) {
       const url = d.url || '';
       const inp = document.getElementById('ghFileUrl');
       const mob = document.getElementById('mobGhFileUrl');
-      if (inp) { inp.value = url; ghSaveSettings(); }
+      if (inp) {
+        inp.value = url;
+        // Only persist to localStorage if this is a complete, parseable file URL
+        // (prevents an incomplete repo-only URL from overwriting a valid saved URL)
+        if (url && ghParseUrl(url)) ghSaveSettings();
+      }
       if (mob) mob.value = url;
     }
     // Update theme/accent live
@@ -2728,7 +2748,11 @@ function ghClearStatus() {
 
 function ghGetFields() {
   const token = _sessionGhToken || localStorage.getItem('ej-gh-token') || '';
-  const url   = localStorage.getItem('ej-gh-fileurl') || localStorage.getItem('ej-active-file-hint') || '';
+  // Prefer the live input field value so the currently-displayed URL is always used.
+  // Fall back to localStorage (saved setting), then the active-file hint from index.html.
+  const liveInp = document.getElementById('ghFileUrl');
+  const liveUrl = liveInp ? liveInp.value.trim() : '';
+  const url = liveUrl || localStorage.getItem('ej-gh-fileurl') || localStorage.getItem('ej-active-file-hint') || '';
   const parsed = ghParseUrl(url);
   if (!parsed) return { token, repo: '', path: '', branch: 'main' };
   return { token, repo: parsed.repo, path: parsed.path, branch: parsed.branch };
