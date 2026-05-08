@@ -13,24 +13,6 @@
           "chapters": [
             {
               "chapter_title": "Chapter 01",
-              "topics": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "year_title": "2nd Year",
-      "subjects": [
-        {
-          "subject_name": {
-            "en": "New Subject",
-            "bn": ""
-          },
-          "img": "",
-          "chapters": [
-            {
-              "chapter_title": "New Chapter",
               "topics": [
                 {
                   "title": "For testing (Pachai Nirame)",
@@ -41,6 +23,10 @@
           ]
         }
       ]
+    },
+    {
+      "year_title": "2nd Year",
+      "subjects": []
     },
     {
       "year_title": "3rd Year",
