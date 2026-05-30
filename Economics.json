@@ -33,6 +33,14 @@
           },
           "img": "https://i.ytimg.com/vi/tVgzgjCyOF8/hqdefault.jpg",
           "chapters": []
+        },
+        {
+          "subject_name": {
+            "en": "History",
+            "bn": ""
+          },
+          "img": "",
+          "chapters": []
         }
       ]
     },
